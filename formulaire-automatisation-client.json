@@ -1,0 +1,143 @@
+{
+  "name": "Formulaire Automatisation Client",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Automatisez votre tâche répétitive",
+        "formDescription": "<p>Dites-nous simplement : <strong>Quelle tâche vous mange le plus de temps chaque semaine ?</strong></p><p>On vous l'automatise dès cette semaine pour vous.</p>",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nom complet",
+              "fieldType": "text",
+              "requiredField": true,
+              "fieldPlaceholder": "Entrez votre nom complet"
+            },
+            {
+              "fieldLabel": "Adresse email",
+              "fieldType": "email",
+              "requiredField": true,
+              "fieldPlaceholder": "votre.email@exemple.fr"
+            },
+            {
+              "fieldLabel": "Quelle tâche prend le plus de temps ?",
+              "fieldType": "textarea",
+              "requiredField": true,
+              "fieldPlaceholder": "Décrivez la tâche qui vous prend le plus de temps chaque semaine...\n\nExemple : Je passe 5h par semaine à copier-coller des données depuis mes emails vers Excel"
+            },
+            {
+              "fieldLabel": "Temps passé par semaine",
+              "fieldType": "text",
+              "requiredField": true,
+              "fieldPlaceholder": "Ex: 5 heures, 2 jours, etc."
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {
+          "formSubmittedText": "✅ Merci ! Nous avons bien reçu votre demande.\n\nNous vous contacterons dans les 24h pour discuter de l'automatisation de votre tâche."
+        }
+      },
+      "name": "Formulaire Client",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [250, 300],
+      "id": "form-trigger-node",
+      "webhookId": "formulaire-client"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now.toISO() }}",
+            "Nom": "={{ $json.\"Nom complet\" }}",
+            "Email": "={{ $json.\"Adresse email\" }}",
+            "Tâche": "={{ $json.\"Quelle tâche prend le plus de temps ?\" }}",
+            "Temps par semaine": "={{ $json.\"Temps passé par semaine\" }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "name": "Enregistrer dans Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [470, 300],
+      "id": "google-sheets-node",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "VOTRE_CREDENTIAL_ID",
+          "name": "Compte Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "votre-email@domaine.com",
+        "toEmail": "={{ $('Formulaire Client').item.json.\"Adresse email\" }}",
+        "subject": "Confirmation - Automatisation de votre tâche",
+        "message": "=Bonjour {{ $('Formulaire Client').item.json.\"Nom complet\" }},\n\nNous avons bien reçu votre demande d'automatisation !\n\n📋 Tâche à automatiser :\n{{ $('Formulaire Client').item.json.\"Quelle tâche prend le plus de temps ?\" }}\n\n⏱️ Temps actuellement passé : {{ $('Formulaire Client').item.json.\"Temps passé par semaine\" }}\n\nNotre équipe va analyser votre demande et vous contacter dans les 24 heures pour :\n✅ Comprendre en détail votre processus actuel\n✅ Vous proposer une solution d'automatisation adaptée\n✅ Commencer l'automatisation dès cette semaine\n\nÀ très bientôt !\n\nL'équipe Automatisation",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "name": "Envoyer Email de Confirmation",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [690, 300],
+      "id": "email-send-node",
+      "credentials": {
+        "smtp": {
+          "id": "VOTRE_SMTP_CREDENTIAL_ID",
+          "name": "Compte SMTP"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Formulaire Client": {
+      "main": [
+        [
+          {
+            "node": "Enregistrer dans Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enregistrer dans Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Envoyer Email de Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-29T00:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatisez votre tâche répétitive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #4a5568;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .description strong {
+            color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #e53e3e;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input:disabled,
+        textarea:disabled {
+            background: #f7fafc;
+            cursor: not-allowed;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        ::placeholder {
+            color: #a0aec0;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .submit-btn.loading {
+            color: transparent;
+        }
+
+        .submit-btn.loading::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spinner 0.6s linear infinite;
+        }
+
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+
+        .note {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .success-message {
+            display: none;
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .error-message {
+            display: none;
+            background: #fef2f2;
+            border: 2px solid #fca5a5;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .error-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .success-text, .error-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .success-text {
+            color: #166534;
+        }
+
+        .error-text {
+            color: #991b1b;
+        }
+
+        .success-subtext, .error-subtext {
+            font-size: 14px;
+        }
+
+        .success-subtext {
+            color: #15803d;
+        }
+
+        .error-subtext {
+            color: #b91c1c;
+        }
+
+        .retry-btn {
+            margin-top: 15px;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .retry-btn:hover {
+            background: #5568d3;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Automatisez votre tâche répétitive</h1>
+            <p class="description">
+                Dites-nous simplement : <strong>Quelle tâche vous mange le plus de temps chaque semaine ?</strong>
+            </p>
+            <p class="description">
+                On vous l'automatise dès cette semaine pour vous.
+            </p>
+        </div>
+
+        <form id="automationForm">
+            <div class="form-group">
+                <label for="nom">
+                    Nom complet <span class="required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="nom"
+                    name="nom"
+                    placeholder="Entrez votre nom complet"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">
+                    Adresse email <span class="required">*</span>
+                </label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="votre.email@exemple.fr"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="tache">
+                    Quelle tâche prend le plus de temps ? <span class="required">*</span>
+                </label>
+                <textarea
+                    id="tache"
+                    name="tache"
+                    placeholder="Décrivez la tâche qui vous prend le plus de temps chaque semaine...&#10;&#10;Exemple : Je passe 5h par semaine à copier-coller des données depuis mes emails vers Excel"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="temps">
+                    Temps passé par semaine <span class="required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="temps"
+                    name="temps"
+                    placeholder="Ex: 5 heures, 2 jours, etc."
+                    required
+                >
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Envoyer ma demande
+            </button>
+
+            <div class="note">
+                👉 <strong>Contactez-moi aujourd'hui</strong><br>
+                Remplissez le formulaire gratuitement.<br>
+                On vous montre exactement quoi automatiser en premier.<br>
+                Zéro jargon technique. Uniquement des solutions concrètes.
+            </div>
+        </form>
+
+        <div id="successMessage" class="success-message">
+            <div class="success-icon">✅</div>
+            <div class="success-text">Merci ! Nous avons bien reçu votre demande.</div>
+            <div class="success-subtext">
+                Nous vous contacterons dans les 24h pour discuter de l'automatisation de votre tâche.
+            </div>
+        </div>
+
+        <div id="errorMessage" class="error-message">
+            <div class="error-icon">❌</div>
+            <div class="error-text">Une erreur est survenue</div>
+            <div class="error-subtext" id="errorText">
+                Veuillez réessayer ou nous contacter directement.
+            </div>
+            <button class="retry-btn" onclick="resetForm()">Réessayer</button>
+        </div>
+    </div>
+
+    <script>
+        // ====== CONFIGURATION ======
+        // URL Google Apps Script Web App (CONFIGURÉ)
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCW1ZYLraQ4NRV2zTgSQc8uIi8_6wGnqfzoRgk56R1RfBxY2S9cUjpmFRu8ciIIS6LJQ/exec";
+        // ====== FIN CONFIGURATION ======
+
+        const form = document.getElementById('automationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Validation de l'URL du script
+            if (GOOGLE_SCRIPT_URL === "VOTRE_URL_GOOGLE_APPS_SCRIPT_ICI") {
+                showError("Configuration manquante : Veuillez configurer l'URL du Google Apps Script dans le code HTML.");
+                return;
+            }
+
+            // Collecter les données
+            const formData = {
+                nom: document.getElementById('nom').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                tache: document.getElementById('tache').value.trim(),
+                temps: document.getElementById('temps').value.trim()
+            };
+
+            // Désactiver le formulaire pendant l'envoi
+            setFormLoading(true);
+
+            try {
+                // Envoyer les données à Google Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Important pour Google Apps Script
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // Avec mode 'no-cors', on ne peut pas lire la réponse
+                // On suppose que ça a fonctionné si pas d'erreur
+                showSuccess();
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError("Impossible d'envoyer le formulaire. Vérifiez votre connexion internet.");
+            } finally {
+                setFormLoading(false);
+            }
+        });
+
+        function setFormLoading(loading) {
+            const inputs = form.querySelectorAll('input, textarea, button');
+            inputs.forEach(input => input.disabled = loading);
+
+            if (loading) {
+                submitBtn.classList.add('loading');
+                submitBtn.textContent = '';
+            } else {
+                submitBtn.classList.remove('loading');
+                submitBtn.textContent = 'Envoyer ma demande';
+            }
+        }
+
+        function showSuccess() {
+            form.style.display = 'none';
+            errorMessage.classList.remove('show');
+            successMessage.classList.add('show');
+        }
+
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.add('show');
+        }
+
+        function resetForm() {
+            errorMessage.classList.remove('show');
+            setFormLoading(false);
+        }
+    </script>
+</body>
+</html>

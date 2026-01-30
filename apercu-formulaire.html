@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automatisez votre tâche répétitive</title>
+    <title>Automatisez votre tâche répétitive - Aperçu</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -418,114 +418,43 @@
             </div>
             <h3 class="message-title">Demande reçue !</h3>
             <p class="message-text">
-                Merci. Nous analysons votre besoin et nous vous contacterons dans les 24h avec une solution concrète.
+                Ceci est un aperçu du design. En production, les données seront envoyées à Google Sheets.
             </p>
-        </div>
-
-        <!-- Error Message -->
-        <div id="errorMessage" class="message-box">
-            <div class="icon-circle error-bg">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </div>
-            <h3 class="message-title">Oups...</h3>
-            <p class="message-text">
-                Une erreur est survenue lors de l'envoi.<br>
-                <span id="errorText" style="font-size: 0.9em; opacity: 0.8;"></span>
-            </p>
-            <button class="retry-btn" onclick="resetForm()">Réessayer</button>
         </div>
     </div>
 
     <script>
-        // ====== CONFIGURATION ======
-        // URL Google Apps Script Web App (CONFIGURÉ)
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCW1ZYLraQ4NRV2zTgSQc8uIi8_6wGnqfzoRgk56R1RfBxY2S9cUjpmFRu8ciIIS6LJQ/exec";
-        // ====== FIN CONFIGURATION ======
-
         const form = document.getElementById('automationForm');
         const submitBtn = document.getElementById('submitBtn');
         const successMessage = document.getElementById('successMessage');
-        const errorMessage = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
 
-        form.addEventListener('submit', async function(e) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Validation de l'URL du script
-            if (GOOGLE_SCRIPT_URL === "VOTRE_URL_GOOGLE_APPS_SCRIPT_ICI") {
-                showError("Configuration manquante : URL Google Apps Script non configurée.");
-                return;
-            }
+            // Simulation d'envoi
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = '';
+            
+            // Console log des données comme dans l'ancien aperçu
+            console.log('Données du formulaire:', {
+                nom: document.getElementById('nom').value,
+                email: document.getElementById('email').value,
+                tache: document.getElementById('tache').value,
+                temps: document.getElementById('temps').value
+            });
 
-            // Collecter les données
-            const formData = {
-                nom: document.getElementById('nom').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                tache: document.getElementById('tache').value.trim(),
-                temps: document.getElementById('temps').value.trim()
-            };
-
-            // Désactiver le formulaire pendant l'envoi
-            setFormLoading(true);
-
-            try {
-                // Envoyer les données à Google Apps Script
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Important pour Google Apps Script
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                // Avec mode 'no-cors', on ne peut pas lire la réponse
-                // On suppose que ça a fonctionné si pas d'erreur réseau
-                setTimeout(showSuccess, 1000); // Petit délai pour l'UX
-
-            } catch (error) {
-                console.error('Erreur:', error);
-                showError("Problème de connexion. Vérifiez votre internet.");
-            } finally {
-                // setFormLoading(false) est appelé par showSuccess ou showError si besoin
-                if (!successMessage.classList.contains('show')) {
-                    setFormLoading(false);
-                }
-            }
+            // Délai simulé de 1s
+            setTimeout(() => {
+                form.style.display = 'none';
+                document.querySelector('.header').style.display = 'none';
+                successMessage.classList.add('show');
+                submitBtn.classList.remove('loading');
+            }, 1000);
         });
 
-        function setFormLoading(loading) {
-            const inputs = form.querySelectorAll('input, textarea, button');
-            inputs.forEach(input => input.disabled = loading);
-
-            if (loading) {
-                submitBtn.classList.add('loading');
-                submitBtn.innerHTML = '';
-            } else {
-                submitBtn.classList.remove('loading');
-                submitBtn.innerHTML = "Lancer l'automatisation 🚀";
-            }
-        }
-
-        function showSuccess() {
-            form.style.display = 'none';
-            errorMessage.classList.remove('show');
-            successMessage.classList.add('show');
-            // Animation reset
-            document.querySelector('.header').style.display = 'none';
-        }
-
-        function showError(message) {
-            errorText.textContent = message;
-            form.style.display = 'none';
-            successMessage.classList.remove('show');
-            errorMessage.classList.add('show');
-        }
-
         function resetForm() {
-            errorMessage.classList.remove('show');
-            form.style.display = 'block';
-            setFormLoading(false);
+            // Pas vraiment utilisé dans l'aperçu simple mais bon pour la cohérence
+            location.reload(); 
         }
     </script>
 </body>
