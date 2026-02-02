@@ -2,26 +2,43 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code - Pitch Slides</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Scannez le QR code pour découvrir comment automatiser votre business avec l'IA">
+    <meta name="theme-color" content="#667eea">
+    <title>QR Code - Automatisez Votre Business</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
+        /* CSS Reset & Normalization */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            font-size: 16px; /* Base font for accessibility */
+        }
+
+        img, picture {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 1.25rem; /* 20px */
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .qr-container {
@@ -87,32 +104,56 @@
             margin-top: 25px;
         }
 
-        .instructions h3 {
+        .instructions h2 {
             font-size: clamp(14px, 3vw, 16px);
             font-weight: 700;
             color: #1E40AF;
             margin-bottom: 12px;
         }
 
-        .instructions p {
+        .instructions ol {
             font-size: clamp(13px, 2.8vw, 14px);
             color: #1F2937;
             line-height: 1.6;
+            list-style-position: inside;
+        }
+
+        .instructions li {
+            margin: 0.5rem 0;
+        }
+
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
 
         .cta {
-            margin-top: 25px;
-            padding: 16px 32px;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            min-height: 3rem; /* 48px touch target */
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-decoration: none;
-            border-radius: 12px;
+            border-radius: 0.75rem;
             font-weight: 600;
-            font-size: clamp(14px, 3vw, 16px);
-            display: inline-block;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.3s ease;
             width: 100%;
-            max-width: 320px;
+            max-width: 20rem;
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(102, 126, 234, 0.3);
         }
 
         .cta:hover {
@@ -121,7 +162,21 @@
         }
 
         .cta:active {
-            transform: translateY(0);
+            transform: scale(0.98);
+        }
+
+        .cta:focus {
+            outline: 3px solid white;
+            outline-offset: 2px;
+        }
+
+        .cta:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        .cta:focus-visible {
+            outline: 3px solid white;
+            outline-offset: 2px;
         }
 
         /* Mobile optimizations */
@@ -274,31 +329,50 @@
     </style>
 </head>
 <body>
-    <div class="qr-container">
-        <h1>📱 Scannez pour voir les slides</h1>
-        <p class="subtitle">Automatisez votre business</p>
+    <main role="main" class="qr-container">
+        <header>
+            <h1 id="main-heading">📱 Scannez pour voir les slides</h1>
+            <p class="subtitle">Automatisez votre business</p>
+        </header>
 
-        <div class="qr-code">
-            <img src="qr-code-pitch-blue.png" alt="QR Code - Pitch Slides">
-        </div>
+        </header>
 
-        <div class="url">
-            https://bilallamal07.github.io/form/pitch.html
-        </div>
+        <section aria-labelledby="qr-code-label">
+            <h2 id="qr-code-label" class="sr-only">Code QR pour accéder aux slides</h2>
+            <div class="qr-code">
+                <img
+                    src="qr-code-pitch-blue.png"
+                    alt="QR Code menant vers les slides de présentation d'automatisation business"
+                    loading="eager"
+                    width="300"
+                    height="300">
+            </div>
 
-        <div class="instructions">
-            <h3>📲 Comment utiliser ce QR code :</h3>
-            <p>
-                1. Ouvrez l'appareil photo de votre smartphone<br>
-                2. Pointez-le vers le QR code<br>
-                3. Appuyez sur la notification pour ouvrir le lien<br>
-                4. Découvrez comment automatiser votre business !
-            </p>
-        </div>
+            <div class="url" role="text">
+                https://bilallamal07.github.io/form/pitch.html
+            </div>
+        </section>
 
-        <a href="https://bilallamal07.github.io/form/pitch.html" class="cta" target="_blank">
-            Voir les slides maintenant →
-        </a>
-    </div>
+        <section class="instructions" aria-labelledby="instructions-heading">
+            <h2 id="instructions-heading">📲 Comment utiliser ce QR code :</h2>
+            <ol role="list">
+                <li>Ouvrez l'appareil photo de votre smartphone</li>
+                <li>Pointez-le vers le QR code</li>
+                <li>Appuyez sur la notification pour ouvrir le lien</li>
+                <li>Découvrez comment automatiser votre business !</li>
+            </ol>
+        </section>
+
+        <nav aria-label="Navigation principale">
+            <a
+                href="https://bilallamal07.github.io/form/pitch.html"
+                class="cta"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Voir les slides de présentation (s'ouvre dans un nouvel onglet)">
+                Voir les slides maintenant →
+            </a>
+        </nav>
+    </main>
 </body>
 </html>
