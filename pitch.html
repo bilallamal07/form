@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Automatisez votre business avec l'IA. Gagnez 10 à 15 heures chaque semaine en automatisant vos ventes, marketing et opérations.">
     <meta name="theme-color" content="#0f172a">
@@ -120,6 +120,8 @@
         /* Base font size ≥ 16px for mobile readability */
         html {
             font-size: 16px; /* Minimum 16px to prevent iOS zoom on input */
+            max-width: 100vw;
+            overflow-x: hidden;
         }
 
         body {
@@ -127,8 +129,12 @@
             background: #0f172a;
             color: #ffffff;
             overflow-x: hidden;
+            max-width: 100vw;
             /* UX: Optimal line-height for readability */
             line-height: 1.6;
+            /* Prevent text overflow on mobile */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         /* Mobile-first: Slides are fluid and responsive */
@@ -644,6 +650,38 @@
         /* ============================================
            RESPONSIVE MEDIA QUERIES (Mobile-First)
            ============================================ */
+
+        /* Small Mobile: 320-374px (iPhone SE, small phones) */
+        @media (max-width: 374px) {
+            html {
+                font-size: 14px; /* Reduce base size for very small screens */
+            }
+
+            .slide {
+                padding: 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem; /* 21px on small screens */
+            }
+
+            h2 {
+                font-size: 1.25rem; /* 17.5px on small screens */
+            }
+
+            .subtitle {
+                font-size: 0.875rem; /* 12.25px on small screens */
+            }
+
+            .big-number {
+                font-size: 2rem; /* Smaller on tiny screens */
+            }
+
+            .benefit-row {
+                padding: 1rem;
+                gap: 0.75rem;
+            }
+        }
 
         /* Tablet: 768px and up */
         @media (min-width: 768px) {
