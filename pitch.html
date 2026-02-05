@@ -221,6 +221,35 @@
             background: linear-gradient(to top, #0f172a 0%, transparent 100%);
         }
 
+        /* French Text Overlay on Image */
+        .image-text-overlay {
+            position: absolute;
+            top: 50%;
+            right: 8%;
+            transform: translateY(-50%);
+            text-align: right;
+            z-index: 10;
+        }
+
+        .overlay-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
+        }
+
+        .overlay-subtitle {
+            font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+            color: #ffffff;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1.4;
+        }
+
         .content-below-image {
             flex: 1;
             padding: 2rem 1.5rem; /* Mobile-first padding */
@@ -821,11 +850,18 @@
         <div class="image-header">
             <img
                 src="automatizer.jpg"
-                alt="Automation workflow visualization with AUTOMATE & GROW - Simple solutions to boost productivity"
+                alt="Automation workflow visualization - Automatisez vos tâches"
                 loading="lazy"
                 decoding="async"
                 width="1920"
                 height="1080">
+            <!-- Dark overlay to hide English text -->
+            <div style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: rgba(15, 23, 42, 0.85); z-index: 5;"></div>
+            <!-- French Text Overlay -->
+            <div class="image-text-overlay">
+                <h2 class="overlay-title">AUTOMATISEZ VOS TÂCHES</h2>
+                <p class="overlay-subtitle">Travaillez mieux. Plus vite. Sans effort.</p>
+            </div>
             <div class="image-overlay"></div>
         </div>
 
