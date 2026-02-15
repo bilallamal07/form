@@ -465,10 +465,50 @@
             </div>
 
             <div class="form-group">
-                <label for="entreprise">Nom de l'entreprise / Secteur d'activité <span class="required">*</span></label>
+                <label for="entreprise">Nom de l'entreprise <span class="required">*</span></label>
                 <div class="input-wrapper">
-                    <input type="text" id="entreprise" name="entreprise" placeholder="Ex: Studio photo / E-commerce" required>
+                    <input type="text" id="entreprise" name="entreprise" placeholder="Ex: Studio Dupont, Ma Boutique..." required>
                     <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="secteur">Secteur d'activité <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <select id="secteur" name="secteur" required>
+                        <option value="" disabled selected>Sélectionnez votre secteur</option>
+                        <option value="Agriculture / Agroalimentaire">Agriculture / Agroalimentaire</option>
+                        <option value="Art / Culture / Design">Art / Culture / Design</option>
+                        <option value="Artisanat / BTP">Artisanat / BTP</option>
+                        <option value="Banques / Assurances / Finance">Banques / Assurances / Finance</option>
+                        <option value="Commerce / Distribution / E-commerce">Commerce / Distribution / E-commerce</option>
+                        <option value="Communication / Marketing / Publicité">Communication / Marketing / Publicité</option>
+                        <option value="Éducation / Formation">Éducation / Formation</option>
+                        <option value="Énergie / Environnement">Énergie / Environnement</option>
+                        <option value="Hôtellerie / Restauration / Tourisme">Hôtellerie / Restauration / Tourisme</option>
+                        <option value="Immobilier">Immobilier</option>
+                        <option value="Industrie / Fabrication">Industrie / Fabrication</option>
+                        <option value="Informatique / Tech / SAAS">Informatique / Tech / SAAS</option>
+                        <option value="Juridique / Conseil">Juridique / Conseil</option>
+                        <option value="Logistique / Transport">Logistique / Transport</option>
+                        <option value="Médical / Santé / Pharmacie">Médical / Santé / Pharmacie</option>
+                        <option value="Médias / Audiovisuel">Médias / Audiovisuel</option>
+                        <option value="ONG / Associatif">ONG / Associatif</option>
+                        <option value="Ressources Humaines / Recrutement">Ressources Humaines / Recrutement</option>
+                        <option value="Services à la personne">Services à la personne</option>
+                        <option value="Sport / Loisirs">Sport / Loisirs</option>
+                        <option value="Télécommunications">Télécommunications</option>
+                        <option value="Autre">Autre (précisez)</option>
+                    </select>
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                </div>
+            </div>
+
+            <div class="form-group" id="secteurAutreGroup" style="display: none;">
+                <label for="secteurAutre">Précisez votre secteur <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <input type="text" id="secteurAutre" name="secteurAutre" placeholder="Ex: Coaching sportif, Consulting IT...">
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                 </div>
             </div>
 
@@ -593,6 +633,22 @@
         const errorMessage = document.getElementById('errorMessage');
         const errorText = document.getElementById('errorText');
 
+        // Show/hide "Autre" text field based on secteur selection
+        const secteurSelect = document.getElementById('secteur');
+        const secteurAutreGroup = document.getElementById('secteurAutreGroup');
+        const secteurAutreInput = document.getElementById('secteurAutre');
+
+        secteurSelect.addEventListener('change', function() {
+            if (this.value === 'Autre') {
+                secteurAutreGroup.style.display = 'block';
+                secteurAutreInput.required = true;
+            } else {
+                secteurAutreGroup.style.display = 'none';
+                secteurAutreInput.required = false;
+                secteurAutreInput.value = '';
+            }
+        });
+
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -603,11 +659,16 @@
             }
 
             // Collecter les données
+            const secteurValue = secteurSelect.value === 'Autre'
+                ? secteurAutreInput.value.trim()
+                : secteurSelect.value;
+
             const formData = {
                 nom: document.getElementById('nom').value.trim(),
                 email: document.getElementById('email').value.trim(),
                 telephone: document.getElementById('telephone').value.trim(),
                 entreprise: document.getElementById('entreprise').value.trim(),
+                secteur: secteurValue,
                 tache: document.getElementById('tache').value.trim(),
                 temps: document.getElementById('temps').value,
                 outils: document.getElementById('outils').value,
