@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatisez votre tâche répétitive</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --input-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Blobs */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: #4f46e5;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: #ec4899;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06),
+                0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            max-width: 550px;
+            width: 100%;
+            padding: 48px;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Top decoration bar */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .description {
+            color: var(--text-light);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .description strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            margin-left: 4px;
+        }
+
+        .required {
+            color: var(--secondary);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            transition: color 0.3s;
+            pointer-events: none;
+        }
+
+        .textarea-icon {
+            top: 16px;
+            transform: none;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            background: var(--input-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            background: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        input:focus + .input-icon,
+        textarea:focus + .input-icon,
+        select:focus + .input-icon {
+            color: var(--primary);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .optional-tag {
+            font-weight: 400;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        .gdpr-group {
+            margin-bottom: 24px;
+        }
+
+        .gdpr-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.4;
+            margin-left: 0;
+            text-align: left;
+        }
+
+        .gdpr-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            margin-top: 1px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            padding: 0;
+            box-shadow: none;
+        }
+
+        .gdpr-note {
+            display: block;
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+        .post-submit-info {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 0 8px;
+        }
+
+        .post-submit-info .tagline {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .post-submit-info .details {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2), 0 2px 4px -1px rgba(79, 70, 229, 0.1);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3), 0 4px 6px -2px rgba(79, 70, 229, 0.15);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Loading Spinner */
+        .submit-btn.loading {
+            color: transparent;
+            pointer-events: none;
+        }
+
+        .submit-btn.loading::after {
+            content: "";
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            top: 50%;
+            left: 50%;
+            margin-left: -12px;
+            margin-top: -12px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spinner 0.8s linear infinite;
+        }
+
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+
+        .note {
+            background: rgba(241, 245, 249, 0.8);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 32px;
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .note-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Success & Error Messages */
+        .message-box {
+            display: none;
+            padding: 32px;
+            text-align: center;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .message-box.show {
+            display: block;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 40px;
+        }
+
+        .success-bg { background: #dcfce7; color: #16a34a; }
+        .error-bg { background: #fee2e2; color: #dc2626; }
+
+        .message-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .message-text {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .retry-btn {
+            background: white;
+            color: var(--text-main);
+            border: 2px solid #e2e8f0;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .retry-btn:hover {
+            border-color: var(--text-light);
+            background: #f8fafc;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 32px 24px;
+            }
+            h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Automatisez votre<br>tâche répétitive</h1>
+            <p class="description">
+                Quelle tâche vous mange le plus de temps ?<br>
+                <strong>On l'automatise dès cette semaine.</strong>
+            </p>
+        </div>
+
+        <form id="automationForm">
+            <div class="form-group">
+                <label for="nom">Nom complet <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <input type="text" id="nom" name="nom" placeholder="Jean Dupont" required>
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Adresse email <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" name="email" placeholder="jean@entreprise.com" required>
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="telephone">Numéro de téléphone <span class="optional-tag">(optionnel)</span></label>
+                <div class="input-wrapper">
+                    <input type="tel" id="telephone" name="telephone" placeholder="+33 6 12 34 56 78">
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="entreprise">Nom de l'entreprise <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <input type="text" id="entreprise" name="entreprise" placeholder="Ex: Studio Dupont, Ma Boutique..." required>
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="secteur">Secteur d'activité <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <select id="secteur" name="secteur" required>
+                        <option value="" disabled selected>Sélectionnez votre secteur</option>
+                        <option value="Agriculture / Agroalimentaire">Agriculture / Agroalimentaire</option>
+                        <option value="Art / Culture / Design">Art / Culture / Design</option>
+                        <option value="Artisanat / BTP">Artisanat / BTP</option>
+                        <option value="Banques / Assurances / Finance">Banques / Assurances / Finance</option>
+                        <option value="Commerce / Distribution / E-commerce">Commerce / Distribution / E-commerce</option>
+                        <option value="Communication / Marketing / Publicité">Communication / Marketing / Publicité</option>
+                        <option value="Éducation / Formation">Éducation / Formation</option>
+                        <option value="Énergie / Environnement">Énergie / Environnement</option>
+                        <option value="Hôtellerie / Restauration / Tourisme">Hôtellerie / Restauration / Tourisme</option>
+                        <option value="Immobilier">Immobilier</option>
+                        <option value="Industrie / Fabrication">Industrie / Fabrication</option>
+                        <option value="Informatique / Tech / SAAS">Informatique / Tech / SAAS</option>
+                        <option value="Juridique / Conseil">Juridique / Conseil</option>
+                        <option value="Logistique / Transport">Logistique / Transport</option>
+                        <option value="Médical / Santé / Pharmacie">Médical / Santé / Pharmacie</option>
+                        <option value="Médias / Audiovisuel">Médias / Audiovisuel</option>
+                        <option value="ONG / Associatif">ONG / Associatif</option>
+                        <option value="Ressources Humaines / Recrutement">Ressources Humaines / Recrutement</option>
+                        <option value="Services à la personne">Services à la personne</option>
+                        <option value="Sport / Loisirs">Sport / Loisirs</option>
+                        <option value="Télécommunications">Télécommunications</option>
+                        <option value="Autre">Autre (précisez)</option>
+                    </select>
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                </div>
+            </div>
+
+            <div class="form-group" id="secteurAutreGroup" style="display: none;">
+                <label for="secteurAutre">Précisez votre secteur <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <input type="text" id="secteurAutre" name="secteurAutre" placeholder="Ex: Coaching sportif, Consulting IT...">
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tache">Quelle tâche vous ralentit ? <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <textarea id="tache" name="tache" placeholder="Ex: Je passe 5h par semaine à copier-coller des données depuis mes emails vers Excel..." required></textarea>
+                    <svg class="input-icon textarea-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="temps">Temps passé par semaine <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <select id="temps" name="temps" required>
+                        <option value="" disabled selected>Sélectionnez une estimation</option>
+                        <option value="Moins de 2h">Moins de 2h</option>
+                        <option value="2h à 5h">2h à 5h</option>
+                        <option value="5h à 10h">5h à 10h</option>
+                        <option value="Plus de 10h">Plus de 10h</option>
+                    </select>
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="outils">Outils utilisés actuellement <span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <select id="outils" name="outils" required>
+                        <option value="" disabled selected>Sélectionnez vos outils</option>
+                        <option value="Google Sheets / Excel">Google Sheets / Excel</option>
+                        <option value="Notion">Notion</option>
+                        <option value="CRM (HubSpot, Salesforce, Pipedrive...)">CRM (HubSpot, Salesforce, Pipedrive...)</option>
+                        <option value="Email (Gmail, Outlook...)">Email (Gmail, Outlook...)</option>
+                        <option value="Slack / Teams">Slack / Teams</option>
+                        <option value="Trello / Asana / Monday">Trello / Asana / Monday</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="budget">Budget estimé <span class="optional-tag">(optionnel)</span></label>
+                <div class="input-wrapper">
+                    <select id="budget" name="budget">
+                        <option value="" disabled selected>Sélectionnez une fourchette</option>
+                        <option value="< 50€">&lt; 50&euro;</option>
+                        <option value="50€ – 100€">50&euro; &ndash; 100&euro;</option>
+                        <option value="100€ – 500€">100&euro; &ndash; 500&euro;</option>
+                        <option value="500€ – 1000€">500&euro; &ndash; 1000&euro;</option>
+                        <option value="1000€+">1000&euro;+</option>
+                        <option value="Je ne sais pas encore">Je ne sais pas encore</option>
+                    </select>
+                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+            </div>
+
+            <div class="gdpr-group">
+                <label class="gdpr-label">
+                    <input type="checkbox" id="gdpr" name="gdpr" required>
+                    <span>
+                        J'accepte que mes données soient traitées pour me recontacter et recevoir mon analyse personnalisée.
+                        <span class="gdpr-note">Nous collectons uniquement les données nécessaires au traitement de votre demande via notre formulaire de contact — Conforme RGPD.</span>
+                    </span>
+                </label>
+            </div>
+
+            <div class="post-submit-info">
+                <p class="tagline">Des workflows simplifiés, sans prise de tête.</p>
+                <p class="details">Soumettez votre demande en 2 minutes, et recevez une analyse personnalisée sous 24 à 48h — avec des pistes concrètes pour automatiser vos tâches.</p>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Lancer l'automatisation 🚀
+            </button>
+
+            <div class="note">
+                <div class="note-icon">👉</div>
+                <div>
+                    <strong>100% Gratuit & Concret</strong><br>
+                    On vous montre exactement quoi automatiser.<br>
+                    Zéro jargon technique.
+                </div>
+            </div>
+        </form>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="message-box">
+            <div class="icon-circle success-bg">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3 class="message-title">Demande reçue !</h3>
+            <p class="message-text">
+                Merci. Nous analysons votre besoin et nous vous contacterons dans les 24h avec une solution concrète.
+            </p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="message-box">
+            <div class="icon-circle error-bg">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </div>
+            <h3 class="message-title">Oups...</h3>
+            <p class="message-text">
+                Une erreur est survenue lors de l'envoi.<br>
+                <span id="errorText" style="font-size: 0.9em; opacity: 0.8;"></span>
+            </p>
+            <button class="retry-btn" onclick="resetForm()">Réessayer</button>
+        </div>
+    </div>
+
+    <script>
+        // ====== CONFIGURATION ======
+        // URL Google Apps Script Web App (CONFIGURÉ)
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCW1ZYLraQ4NRV2zTgSQc8uIi8_6wGnqfzoRgk56R1RfBxY2S9cUjpmFRu8ciIIS6LJQ/exec";
+        // ====== FIN CONFIGURATION ======
+
+        const form = document.getElementById('automationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+
+        // Show/hide "Autre" text field based on secteur selection
+        const secteurSelect = document.getElementById('secteur');
+        const secteurAutreGroup = document.getElementById('secteurAutreGroup');
+        const secteurAutreInput = document.getElementById('secteurAutre');
+
+        secteurSelect.addEventListener('change', function() {
+            if (this.value === 'Autre') {
+                secteurAutreGroup.style.display = 'block';
+                secteurAutreInput.required = true;
+            } else {
+                secteurAutreGroup.style.display = 'none';
+                secteurAutreInput.required = false;
+                secteurAutreInput.value = '';
+            }
+        });
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Validation de l'URL du script
+            if (GOOGLE_SCRIPT_URL === "VOTRE_URL_GOOGLE_APPS_SCRIPT_ICI") {
+                showError("Configuration manquante : URL Google Apps Script non configurée.");
+                return;
+            }
+
+            // Collecter les données
+            const secteurValue = secteurSelect.value === 'Autre'
+                ? secteurAutreInput.value.trim()
+                : secteurSelect.value;
+
+            const formData = {
+                nom: document.getElementById('nom').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                telephone: document.getElementById('telephone').value.trim(),
+                entreprise: document.getElementById('entreprise').value.trim(),
+                secteur: secteurValue,
+                tache: document.getElementById('tache').value.trim(),
+                temps: document.getElementById('temps').value,
+                outils: document.getElementById('outils').value,
+                budget: document.getElementById('budget').value || '',
+                gdpr: document.getElementById('gdpr').checked
+            };
+
+            // Désactiver le formulaire pendant l'envoi
+            setFormLoading(true);
+
+            try {
+                // Envoyer les données à Google Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Important pour Google Apps Script
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // Avec mode 'no-cors', on ne peut pas lire la réponse
+                // On suppose que ça a fonctionné si pas d'erreur réseau
+                setTimeout(showSuccess, 1000); // Petit délai pour l'UX
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError("Problème de connexion. Vérifiez votre internet.");
+            } finally {
+                // setFormLoading(false) est appelé par showSuccess ou showError si besoin
+                if (!successMessage.classList.contains('show')) {
+                    setFormLoading(false);
+                }
+            }
+        });
+
+        function setFormLoading(loading) {
+            const inputs = form.querySelectorAll('input, textarea, select, button');
+            inputs.forEach(input => input.disabled = loading);
+
+            if (loading) {
+                submitBtn.classList.add('loading');
+                submitBtn.innerHTML = '';
+            } else {
+                submitBtn.classList.remove('loading');
+                submitBtn.innerHTML = "Lancer l'automatisation 🚀";
+            }
+        }
+
+        function showSuccess() {
+            form.style.display = 'none';
+            errorMessage.classList.remove('show');
+            successMessage.classList.add('show');
+            // Animation reset
+            document.querySelector('.header').style.display = 'none';
+        }
+
+        function showError(message) {
+            errorText.textContent = message;
+            form.style.display = 'none';
+            successMessage.classList.remove('show');
+            errorMessage.classList.add('show');
+        }
+
+        function resetForm() {
+            errorMessage.classList.remove('show');
+            form.style.display = 'block';
+            setFormLoading(false);
+        }
+    </script>
+</body>
+</html>

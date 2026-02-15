@@ -2,742 +2,1108 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automatisez votre tâche répétitive</title>
-    <!-- Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Automatisez votre business avec l'IA. Gagnez 10 à 15 heures chaque semaine en automatisant vos ventes, marketing et opérations.">
+    <meta name="theme-color" content="#0f172a">
+    <title>Automatisez Votre Business - Pitch Complet</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --text-main: #1e293b;
-            --text-light: #64748b;
-            --white: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --input-bg: rgba(255, 255, 255, 0.9);
-        }
+        /* ============================================
+           CSS RESET & NORMALIZATION
+           ============================================ */
 
-        * {
+        /* Modern CSS Reset */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Remove default margins */
+        body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
+            margin: 0;
+        }
+
+        /* Remove list styles on ul, ol elements */
+        ul[role='list'], ol[role='list'] {
+            list-style: none;
+        }
+
+        /* Set core root defaults */
+        html:focus-within {
+            scroll-behavior: smooth;
+        }
+
+        /* Set core body defaults */
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0f172a;
-            background-image: 
-                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: var(--text-main);
-            overflow-x: hidden;
-            position: relative;
+            text-rendering: optimizeSpeed;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Animated Background Blobs */
-        .blob {
+        /* A elements that don't have a class get default styles */
+        a:not([class]) {
+            text-decoration-skip-ink: auto;
+        }
+
+        /* Make images easier to work with */
+        img, picture, video, canvas, svg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Inherit fonts for inputs and buttons */
+        input, button, textarea, select {
+            font: inherit;
+        }
+
+        /* Remove all animations for people who prefer not to see them */
+        @media (prefers-reduced-motion: reduce) {
+            html:focus-within {
+                scroll-behavior: auto;
+            }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* ============================================
+           ACCESSIBILITY: SKIP LINK
+           ============================================ */
+
+        .skip-link {
             position: absolute;
-            filter: blur(80px);
-            z-index: -1;
-            opacity: 0.6;
-            animation: float 10s ease-in-out infinite;
+            top: -40px;
+            left: 0;
+            background: #06b6d4;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 9999;
+            font-weight: 600;
         }
 
-        .blob-1 {
-            top: -10%;
-            left: -10%;
-            width: 500px;
-            height: 500px;
-            background: #4f46e5;
-            animation-delay: 0s;
+        .skip-link:focus {
+            top: 0;
         }
 
-        .blob-2 {
-            bottom: -10%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: #ec4899;
-            animation-delay: -5s;
+        /* Visually hidden but accessible to screen readers */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0, 0) scale(1); }
+        /* ============================================
+           BROWSER COMPATIBILITY FIXES
+           ============================================ */
+
+        /* ============================================
+           UX: BASE FONT SIZE & READABILITY
+           ============================================ */
+
+        /* Base font size ≥ 16px for mobile readability */
+        html {
+            font-size: 16px; /* Minimum 16px to prevent iOS zoom on input */
+            max-width: 100vw;
+            overflow-x: hidden;
         }
 
-        .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: 
-                0 4px 6px -1px rgba(0, 0, 0, 0.1), 
-                0 2px 4px -1px rgba(0, 0, 0, 0.06),
-                0 20px 25px -5px rgba(0, 0, 0, 0.1),
-                0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            max-width: 550px;
-            width: 100%;
-            padding: 48px;
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f172a;
+            color: #ffffff;
+            overflow-x: hidden;
+            max-width: 100vw;
+            /* UX: Optimal line-height for readability */
+            line-height: 1.6;
+            /* Prevent text overflow on mobile */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Mobile-first: Slides are fluid and responsive */
+        .slide {
+            width: 100vw;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
             position: relative;
             overflow: hidden;
-            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
         }
 
-        /* Top decoration bar */
-        .container::before {
-            content: '';
+        .gradient-bar {
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 8px;
+            background: linear-gradient(90deg, #a855f7 0%, #06b6d4 100%);
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
+        /* Typography - Mobile-first (responsive rem units) */
         h1 {
-            font-family: 'Outfit', sans-serif;
-            color: var(--text-main);
-            font-size: 32px;
+            font-size: 1.75rem; /* 28px base, scales up on larger screens */
             font-weight: 700;
-            margin-bottom: 16px;
             line-height: 1.2;
-            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
         }
 
-        .description {
-            color: var(--text-light);
-            font-size: 16px;
-            line-height: 1.6;
+        h2 {
+            font-size: 1.5rem; /* 24px base */
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1.25rem;
         }
 
-        .description strong {
-            color: var(--primary);
-            font-weight: 600;
+        .gradient-text {
+            background: linear-gradient(90deg, #a855f7 0%, #06b6d4 100%);
+            /* Vendor prefixes for cross-browser compatibility */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-background-clip: text;
+            -moz-text-fill-color: transparent;
+            background-clip: text;
+            /* Fallback for browsers that don't support background-clip: text */
+            color: #a855f7;
         }
 
-        .form-group {
-            margin-bottom: 24px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 8px;
-            margin-left: 4px;
-        }
-
-        .required {
-            color: var(--secondary);
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            transition: color 0.3s;
-            pointer-events: none;
-        }
-
-        .textarea-icon {
-            top: 16px;
-            transform: none;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 14px 16px 14px 48px;
-            background: var(--input-bg);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            font-size: 15px;
-            font-family: inherit;
-            color: var(--text-main);
-            transition: all 0.3s ease;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-
-        select {
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: 40px;
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            background: #fff;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
-
-        input:focus + .input-icon,
-        textarea:focus + .input-icon,
-        select:focus + .input-icon {
-            color: var(--primary);
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: #94a3b8;
-        }
-
-        .optional-tag {
+        .subtitle {
+            font-size: 1rem; /* 16px base */
+            color: #cbd5e1;
             font-weight: 400;
-            color: var(--text-light);
-            font-size: 12px;
-        }
-
-        .gdpr-group {
-            margin-bottom: 24px;
-        }
-
-        .gdpr-label {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            cursor: pointer;
-            font-weight: 400;
-            font-size: 12px;
-            color: var(--text-light);
-            line-height: 1.4;
-            margin-left: 0;
-            text-align: left;
-        }
-
-        .gdpr-label input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            min-width: 16px;
-            margin-top: 1px;
-            accent-color: var(--primary);
-            cursor: pointer;
-            padding: 0;
-            box-shadow: none;
-        }
-
-        .gdpr-note {
-            display: block;
-            font-size: 10px;
-            color: #94a3b8;
-            margin-top: 3px;
-        }
-
-        .post-submit-info {
-            text-align: center;
-            margin-bottom: 24px;
-            padding: 0 8px;
-        }
-
-        .post-submit-info .tagline {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--primary);
-            margin-bottom: 6px;
-        }
-
-        .post-submit-info .details {
-            font-size: 13px;
-            color: var(--text-light);
             line-height: 1.5;
         }
 
-        .submit-btn {
+        /* Slide 1 - With Image (Mobile-first) */
+        .slide-with-image {
+            padding: 0;
+        }
+
+        .image-header {
             width: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            font-family: 'Outfit', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            height: 40vh; /* Mobile: 40% of viewport height */
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2), 0 2px 4px -1px rgba(79, 70, 229, 0.1);
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3), 0 4px 6px -2px rgba(79, 70, 229, 0.15);
+        .image-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
         }
 
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Loading Spinner */
-        .submit-btn.loading {
-            color: transparent;
-            pointer-events: none;
-        }
-
-        .submit-btn.loading::after {
-            content: "";
+        .image-overlay {
             position: absolute;
-            width: 24px;
-            height: 24px;
-            top: 50%;
-            left: 50%;
-            margin-left: -12px;
-            margin-top: -12px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spinner 0.8s linear infinite;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top, #0f172a 0%, transparent 100%);
         }
 
-        @keyframes spinner {
-            to { transform: rotate(360deg); }
-        }
-
-        .note {
-            background: rgba(241, 245, 249, 0.8);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 32px;
-            font-size: 14px;
-            color: var(--text-light);
-            line-height: 1.6;
+        .content-below-image {
+            flex: 1;
+            padding: 2rem 1.5rem; /* Mobile-first padding */
             display: flex;
-            gap: 12px;
-            align-items: flex-start;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
-        .note-icon {
-            font-size: 20px;
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
+            border: 3px solid;
+            border-image: linear-gradient(90deg, #a855f7 0%, #06b6d4 100%) 1;
+            border-radius: 20px;
+            padding: 40px 60px;
+            margin-top: 40px;
+        }
+
+        .big-number {
+            font-size: 52px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a855f7 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .tagline {
+            font-size: 24px;
+            color: #e2e8f0;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        /* Regular Slides (Mobile-first) */
+        .slide-content {
+            padding: 2rem 1.5rem; /* Mobile padding */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+        }
+
+        /* Slide 2 - Stats (Mobile-first: stacked) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile: single column */
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(30, 27, 75, 0.6);
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            border-radius: 1rem;
+            padding: 2rem 1.5rem; /* Mobile-first */
+            text-align: center;
+            /* Vendor prefixes for backdrop-filter (Safari/iOS support) */
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #06b6d4;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(6, 182, 212, 0.4);
+        }
+
+        /* UX: Touch feedback for mobile */
+        @media (hover: none) {
+            .stat-card:active {
+                transform: scale(0.98);
+                opacity: 0.9;
+            }
+        }
+
+        .stat-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .stat-value {
+            font-size: 52px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a855f7 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .stat-description {
+            font-size: 16px;
+            color: #cbd5e1;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Slide 3 - Benefits (Mobile-first) */
+        .benefits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .benefit-row {
+            background: rgba(30, 27, 75, 0.6);
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            border-radius: 1rem;
+            padding: 1.5rem 1.25rem; /* Mobile-first: smaller padding */
+            display: flex;
+            align-items: flex-start; /* Better for mobile wrapping */
+            gap: 1rem;
+            /* Vendor prefixes for backdrop-filter */
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        .benefit-row:hover {
+            border-color: #a855f7;
+            transform: translateX(15px);
+            box-shadow: 0 15px 50px rgba(168, 85, 247, 0.4);
+        }
+
+        /* UX: Touch feedback for mobile */
+        @media (hover: none) {
+            .benefit-row:active {
+                transform: scale(0.98);
+                opacity: 0.95;
+            }
+        }
+
+        .benefit-number {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a855f7 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            min-width: 60px;
+        }
+
+        .benefit-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .benefit-desc {
+            font-size: 16px;
+            color: #cbd5e1;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .benefit-desc ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .benefit-desc li {
+            margin: 3px 0;
+        }
+
+        .benefit-result {
+            margin-top: 8px;
+            font-weight: 500;
+            color: #06b6d4;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .intro-tagline {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .intro-subtitle {
+            font-size: 13px;
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        /* Trust Signals - Tool Logos */
+        .trust-section {
+            margin-top: 2.5rem;
+            text-align: center;
+        }
+
+        .trust-label {
+            font-size: 13px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+        }
+
+        .tools-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .tool-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8125rem;
+            color: #e2e8f0;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+
+        .tool-badge:hover {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tool-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
             flex-shrink: 0;
         }
 
-        /* Success & Error Messages */
-        .message-box {
-            display: none;
-            padding: 32px;
-            text-align: center;
-            animation: slideIn 0.4s ease-out;
+        /* Gratuit badge */
+        .gratuit-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 999px;
+            padding: 0.625rem 1.5rem;
+            font-size: 0.875rem;
+            color: #06b6d4;
+            font-weight: 600;
+            margin-top: 1.5rem;
         }
 
-        .message-box.show {
-            display: block;
-        }
-
-        .icon-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+        .cta-container {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gratuit-detail {
+            display: none;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 767px) {
+            .gratuit-dash {
+                display: none;
+            }
+            .gratuit-detail {
+                display: block;
+            }
+        }
+
+        /* Slide 4 - CTA */
+        .cta-container {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* ============================================
+           UX: TOUCH-FRIENDLY BUTTON (Min 48x48px)
+           ============================================ */
+
+        .form-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
+            color: #ffffff;
+            font-size: 1.125rem; /* 18px - readable */
+            font-weight: 700;
+            padding: 1rem 2rem; /* 16px 32px - ensures min 48px height */
+            min-height: 3rem; /* 48px minimum touch target */
+            border-radius: 0.75rem;
+            text-decoration: none;
+            box-shadow: 0 15px 50px rgba(168, 85, 247, 0.5);
+            transition: all 0.3s ease;
+            /* Better touch interaction */
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(168, 85, 247, 0.3);
+            /* Center text */
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 40px;
+            gap: 0.5rem;
         }
 
-        .success-bg { background: #dcfce7; color: #16a34a; }
-        .error-bg { background: #fee2e2; color: #dc2626; }
+        .form-button:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 25px 70px rgba(168, 85, 247, 0.7);
+        }
 
-        .message-title {
-            font-family: 'Outfit', sans-serif;
+        .form-button:active {
+            transform: scale(0.98) translateY(-2px);
+        }
+
+        .form-button:focus {
+            outline: 3px solid #06b6d4;
+            outline-offset: 2px;
+        }
+
+        .form-button:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        .form-button:focus-visible {
+            outline: 3px solid #06b6d4;
+            outline-offset: 2px;
+        }
+
+        .cta-icon {
             font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-main);
+            margin-right: 10px;
         }
 
-        .message-text {
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        .retry-btn {
-            background: white;
-            color: var(--text-main);
-            border: 2px solid #e2e8f0;
-            padding: 10px 24px;
-            border-radius: 8px;
+        .urgency-text {
+            font-size: 16px;
+            color: #fbbf24;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
+            margin-top: 40px;
         }
 
-        .retry-btn:hover {
-            border-color: var(--text-light);
-            background: #f8fafc;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 32px 24px;
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 15px 50px rgba(168, 85, 247, 0.5);
+            }
+            50% {
+                box-shadow: 0 15px 70px rgba(168, 85, 247, 0.8);
+            }
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Apply animations to elements */
+        .slide {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .image-header {
+            animation: fadeIn 1s ease-out;
+        }
+
+        .content-below-image h1 {
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .content-below-image .subtitle {
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .highlight-box {
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        .stat-card {
+            animation: slideInLeft 0.8s ease-out both;
+        }
+
+        .stat-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .stat-value {
+            animation: countUp 0.6s ease-out both;
+        }
+
+        .benefit-row {
+            animation: slideInRight 0.8s ease-out both;
+        }
+
+        .benefit-row:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .benefit-row:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .benefit-row:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .benefit-row:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .form-button {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .intro-text {
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        /* Enhanced hover effects */
+        .stat-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .benefit-row {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @media print {
+            .slide {
+                page-break-after: always;
+                animation: none;
+            }
+
+            .stat-card,
+            .benefit-row,
+            .form-button,
+            h1, .subtitle, .highlight-box {
+                animation: none !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE MEDIA QUERIES (Mobile-First)
+           ============================================ */
+
+        /* Small Mobile: 320-374px (iPhone SE, small phones) */
+        @media (max-width: 374px) {
+            html {
+                font-size: 14px; /* Reduce base size for very small screens */
+            }
+
+            .slide {
+                padding: 1.5rem 1rem;
+            }
+
             h1 {
-                font-size: 26px;
+                font-size: 1.5rem; /* 21px on small screens */
+            }
+
+            h2 {
+                font-size: 1.25rem; /* 17.5px on small screens */
+            }
+
+            .subtitle {
+                font-size: 0.875rem; /* 12.25px on small screens */
+            }
+
+            .big-number {
+                font-size: 2rem; /* Smaller on tiny screens */
+            }
+
+            .benefit-row {
+                padding: 1rem;
+                gap: 0.75rem;
+            }
+        }
+
+        /* Tablet: 768px and up */
+        @media (min-width: 768px) {
+            html {
+                font-size: 18px; /* Increase base font size */
+            }
+
+            .slide {
+                padding: 3rem 2.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem; /* 45px */
+            }
+
+            h2 {
+                font-size: 2rem; /* 36px */
+            }
+
+            .subtitle {
+                font-size: 1.25rem; /* 22.5px */
+            }
+
+            .image-header {
+                height: 50vh; /* Larger on tablet */
+            }
+
+            .content-below-image {
+                padding: 3rem 2.5rem;
+            }
+
+            .big-number {
+                font-size: 3rem; /* 54px */
+            }
+
+            .tagline {
+                font-size: 1.5rem; /* 27px */
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            .benefit-row {
+                padding: 2rem 3rem;
+            }
+        }
+
+        /* Desktop: 1024px and up */
+        @media (min-width: 1024px) {
+            html {
+                font-size: 16px; /* Reset to 16px for precise control */
+            }
+
+            .slide {
+                padding: 4rem 5rem;
+            }
+
+            h1 {
+                font-size: 3.125rem; /* 50px - original size */
+                margin-bottom: 1.5625rem;
+            }
+
+            h2 {
+                font-size: 2.125rem; /* 34px */
+                margin-bottom: 1.875rem;
+            }
+
+            .subtitle {
+                font-size: 1.5rem; /* 24px */
+            }
+
+            .image-header {
+                height: 540px; /* Fixed height on desktop */
+            }
+
+            .content-below-image {
+                padding: 3.75rem 7.5rem; /* 60px 120px */
+            }
+
+            .highlight-box {
+                padding: 2.5rem 3.75rem; /* 40px 60px */
+                margin-top: 2.5rem;
+            }
+
+            .big-number {
+                font-size: 3.25rem; /* 52px */
+            }
+
+            .tagline {
+                font-size: 1.5rem; /* 24px */
+            }
+
+            .slide-content {
+                padding: 6.25rem 7.5rem; /* 100px 120px - original */
+            }
+
+            .stats-grid {
+                gap: 2.5rem;
+                margin-top: 3.75rem;
+            }
+
+            .stat-card {
+                padding: 2.5rem 1.875rem; /* 40px 30px */
+            }
+
+            .benefits-list {
+                gap: 1.25rem;
+                margin-top: 2.5rem;
+            }
+
+            .benefit-row {
+                padding: 1.5625rem 2.5rem; /* 25px 40px */
+            }
+        }
+
+        /* Large Desktop: 1440px and up */
+        @media (min-width: 1440px) {
+            .slide {
+                max-width: 1920px;
+                margin: 0 auto;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Background Elements -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main-content" class="skip-link">Passer au contenu principal</a>
 
-    <div class="container">
-        <div class="header">
-            <h1>Automatisez votre<br>tâche répétitive</h1>
-            <p class="description">
-                Quelle tâche vous mange le plus de temps ?<br>
-                <strong>On l'automatise dès cette semaine.</strong>
-            </p>
+    <!-- Main presentation content -->
+    <main id="main-content" role="main">
+        <!-- SLIDE 1: AUTOMATISEZ VOTRE BUSINESS - WITH IMAGE -->
+        <section class="slide slide-with-image" aria-labelledby="slide1-heading" role="region">
+        <!-- Image at Top -->
+        <div class="image-header">
+            <img
+                src="automation-before-after.jpg"
+                alt="Before and After Automation: Chaotic manual work transformed into organized automated workflows"
+                loading="eager"
+                decoding="async"
+                width="1920"
+                height="1080">
+            <div class="image-overlay"></div>
         </div>
 
-        <form id="automationForm">
-            <div class="form-group">
-                <label for="nom">Nom complet <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <input type="text" id="nom" name="nom" placeholder="Jean Dupont" required>
-                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                </div>
+        <!-- Content Below Image -->
+        <div class="content-below-image">
+            <h1 id="slide1-heading">
+                <span class="gradient-text">Automatisez votre business</span>
+            </h1>
+            <div class="highlight-box">
+                <div class="big-number">Gagnez 10 à 15</div>
+                <div class="tagline">heures chaque semaine</div>
             </div>
-
-            <div class="form-group">
-                <label for="email">Adresse email <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <input type="email" id="email" name="email" placeholder="jean@entreprise.com" required>
-                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="telephone">Numéro de téléphone <span class="optional-tag">(optionnel)</span></label>
-                <div class="input-wrapper">
-                    <input type="tel" id="telephone" name="telephone" placeholder="+33 6 12 34 56 78">
-                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="entreprise">Nom de l'entreprise <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <input type="text" id="entreprise" name="entreprise" placeholder="Ex: Studio Dupont, Ma Boutique..." required>
-                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="secteur">Secteur d'activité <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <select id="secteur" name="secteur" required>
-                        <option value="" disabled selected>Sélectionnez votre secteur</option>
-                        <option value="Agriculture / Agroalimentaire">Agriculture / Agroalimentaire</option>
-                        <option value="Art / Culture / Design">Art / Culture / Design</option>
-                        <option value="Artisanat / BTP">Artisanat / BTP</option>
-                        <option value="Banques / Assurances / Finance">Banques / Assurances / Finance</option>
-                        <option value="Commerce / Distribution / E-commerce">Commerce / Distribution / E-commerce</option>
-                        <option value="Communication / Marketing / Publicité">Communication / Marketing / Publicité</option>
-                        <option value="Éducation / Formation">Éducation / Formation</option>
-                        <option value="Énergie / Environnement">Énergie / Environnement</option>
-                        <option value="Hôtellerie / Restauration / Tourisme">Hôtellerie / Restauration / Tourisme</option>
-                        <option value="Immobilier">Immobilier</option>
-                        <option value="Industrie / Fabrication">Industrie / Fabrication</option>
-                        <option value="Informatique / Tech / SAAS">Informatique / Tech / SAAS</option>
-                        <option value="Juridique / Conseil">Juridique / Conseil</option>
-                        <option value="Logistique / Transport">Logistique / Transport</option>
-                        <option value="Médical / Santé / Pharmacie">Médical / Santé / Pharmacie</option>
-                        <option value="Médias / Audiovisuel">Médias / Audiovisuel</option>
-                        <option value="ONG / Associatif">ONG / Associatif</option>
-                        <option value="Ressources Humaines / Recrutement">Ressources Humaines / Recrutement</option>
-                        <option value="Services à la personne">Services à la personne</option>
-                        <option value="Sport / Loisirs">Sport / Loisirs</option>
-                        <option value="Télécommunications">Télécommunications</option>
-                        <option value="Autre">Autre (précisez)</option>
-                    </select>
-                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                </div>
-            </div>
-
-            <div class="form-group" id="secteurAutreGroup" style="display: none;">
-                <label for="secteurAutre">Précisez votre secteur <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <input type="text" id="secteurAutre" name="secteurAutre" placeholder="Ex: Coaching sportif, Consulting IT...">
-                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="tache">Quelle tâche vous ralentit ? <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <textarea id="tache" name="tache" placeholder="Ex: Je passe 5h par semaine à copier-coller des données depuis mes emails vers Excel..." required></textarea>
-                    <svg class="input-icon textarea-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="temps">Temps passé par semaine <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <select id="temps" name="temps" required>
-                        <option value="" disabled selected>Sélectionnez une estimation</option>
-                        <option value="Moins de 2h">Moins de 2h</option>
-                        <option value="2h à 5h">2h à 5h</option>
-                        <option value="5h à 10h">5h à 10h</option>
-                        <option value="Plus de 10h">Plus de 10h</option>
-                    </select>
-                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="outils">Outils utilisés actuellement <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <select id="outils" name="outils" required>
-                        <option value="" disabled selected>Sélectionnez vos outils</option>
-                        <option value="Google Sheets / Excel">Google Sheets / Excel</option>
-                        <option value="Notion">Notion</option>
-                        <option value="CRM (HubSpot, Salesforce, Pipedrive...)">CRM (HubSpot, Salesforce, Pipedrive...)</option>
-                        <option value="Email (Gmail, Outlook...)">Email (Gmail, Outlook...)</option>
-                        <option value="Slack / Teams">Slack / Teams</option>
-                        <option value="Trello / Asana / Monday">Trello / Asana / Monday</option>
-                        <option value="Autre">Autre</option>
-                    </select>
-                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="budget">Budget estimé <span class="optional-tag">(optionnel)</span></label>
-                <div class="input-wrapper">
-                    <select id="budget" name="budget">
-                        <option value="" disabled selected>Sélectionnez une fourchette</option>
-                        <option value="< 50€">&lt; 50&euro;</option>
-                        <option value="50€ – 100€">50&euro; &ndash; 100&euro;</option>
-                        <option value="100€ – 500€">100&euro; &ndash; 500&euro;</option>
-                        <option value="500€ – 1000€">500&euro; &ndash; 1000&euro;</option>
-                        <option value="1000€+">1000&euro;+</option>
-                        <option value="Je ne sais pas encore">Je ne sais pas encore</option>
-                    </select>
-                    <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                </div>
-            </div>
-
-            <div class="gdpr-group">
-                <label class="gdpr-label">
-                    <input type="checkbox" id="gdpr" name="gdpr" required>
-                    <span>
-                        J'accepte que mes données soient traitées pour me recontacter et recevoir mon analyse personnalisée.
-                        <span class="gdpr-note">Nous collectons uniquement les données nécessaires au traitement de votre demande via notre formulaire de contact — Conforme RGPD.</span>
-                    </span>
-                </label>
-            </div>
-
-            <div class="post-submit-info">
-                <p class="tagline">Des workflows simplifiés, sans prise de tête.</p>
-                <p class="details">Soumettez votre demande en 2 minutes, et recevez une analyse personnalisée sous 24 à 48h — avec des pistes concrètes pour automatiser vos tâches.</p>
-            </div>
-
-            <button type="submit" class="submit-btn" id="submitBtn">
-                Lancer l'automatisation 🚀
-            </button>
-
-            <div class="note">
-                <div class="note-icon">👉</div>
-                <div>
-                    <strong>100% Gratuit & Concret</strong><br>
-                    On vous montre exactement quoi automatiser.<br>
-                    Zéro jargon technique.
-                </div>
-            </div>
-        </form>
-
-        <!-- Success Message -->
-        <div id="successMessage" class="message-box">
-            <div class="icon-circle success-bg">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            </div>
-            <h3 class="message-title">Demande reçue !</h3>
-            <p class="message-text">
-                Merci. Nous analysons votre besoin et nous vous contacterons dans les 24h avec une solution concrète.
-            </p>
         </div>
+        <div class="gradient-bar" role="presentation" aria-hidden="true"></div>
+    </section>
 
-        <!-- Error Message -->
-        <div id="errorMessage" class="message-box">
-            <div class="icon-circle error-bg">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </div>
-            <h3 class="message-title">Oups...</h3>
-            <p class="message-text">
-                Une erreur est survenue lors de l'envoi.<br>
-                <span id="errorText" style="font-size: 0.9em; opacity: 0.8;"></span>
+    <!-- SLIDE 2: VOUS PERDEZ COMBIEN D'HEURES CHAQUE SEMAINE -->
+    <section class="slide" aria-labelledby="slide2-heading" role="region">
+        <div class="slide-content">
+            <h2 id="slide2-heading">
+                Vous perdez combien<br>
+                <span class="gradient-text">d'heures chaque semaine ?</span>
+            </h2>
+
+            <p class="subtitle" style="font-size: clamp(0.95rem, 1.8vw, 1.15rem); line-height: 1.6; font-weight: 500;">
+                <strong>AUTOMATISEZ & DÉVELOPPEZ-VOUS</strong><br>
+                Des solutions simples. Plus de productivité.<br>
+                Libérez du temps.
             </p>
-            <button class="retry-btn" onclick="resetForm()">Réessayer</button>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-value">73%</div>
+                    <div class="stat-description">des freelance, indépendant ou auto-entrepreneur perdent<br>10+ heures/semaine</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">💸</div>
+                    <div class="stat-value">40%</div>
+                    <div class="stat-description">du temps perdu sur<br>des tâches manuelles</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📉</div>
+                    <div class="stat-value">-25%</div>
+                    <div class="stat-description">de productivité perdue<br>sans automatisation</div>
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="gradient-bar" role="presentation" aria-hidden="true"></div>
+    </section>
 
-    <script>
-        // ====== CONFIGURATION ======
-        // URL Google Apps Script Web App (CONFIGURÉ)
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCW1ZYLraQ4NRV2zTgSQc8uIi8_6wGnqfzoRgk56R1RfBxY2S9cUjpmFRu8ciIIS6LJQ/exec";
-        // ====== FIN CONFIGURATION ======
+    <!-- SLIDE 3: À QUOI VOUS ATTENDRE -->
+    <section class="slide" aria-labelledby="slide3-heading" role="region">
+        <div class="slide-content">
+            <h2 id="slide3-heading">
+                <span class="gradient-text">À quoi vous attendre</span>
+            </h2>
 
-        const form = document.getElementById('automationForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const successMessage = document.getElementById('successMessage');
-        const errorMessage = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
+            <div class="intro-text">
+                <p class="intro-tagline">Automatisez vos tâches, libérez votre temps !</p>
+                <p class="intro-subtitle">(Conçu pour les solopreneurs et les petites entreprises, peu importe la taille.)</p>
+            </div>
 
-        // Show/hide "Autre" text field based on secteur selection
-        const secteurSelect = document.getElementById('secteur');
-        const secteurAutreGroup = document.getElementById('secteurAutreGroup');
-        const secteurAutreInput = document.getElementById('secteurAutre');
+            <div class="benefits-list">
+                <div class="benefit-row">
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="benefit-number">01</div>
+                            <div class="benefit-title" style="margin-bottom: 0;">Ventes & Marketing</div>
+                        </div>
+                        <div class="benefit-desc">
+                            <ul>
+                                <li><strong>Communication automatisée :</strong> Emails intelligents pour les confirmations de commande, les relances de paniers abandonnés, les campagnes promotionnelles ciblées et les réponses automatiques aux FAQ.</li>
+                                <li><strong>Gestion commerciale et CRM :</strong> Suivi des leads avec scoring et qualification automatique, génération de devis et factures, et fidélisation avec historique client centralisé et rappels de paiement.</li>
+                                <li><strong>Présence digitale :</strong> Planification et publication automatique sur les réseaux sociaux, analyse des performances et ajustement des contenus.</li>
+                                <li><strong>Efficacité opérationnelle :</strong> Automatisation des tâches répétitives pour libérer du temps sur l'innovation.</li>
+                            </ul>
+                            <div class="benefit-result">→ Résultat : Vos clients sont mieux suivis et engagés grâce à un système automatisé et personnalisé, tandis que vos ventes augmentent sans effort supplémentaire, vous permettant de vous concentrer sur l'innovation et la croissance de vos projets.</div>
+                        </div>
+                    </div>
+                </div>
 
-        secteurSelect.addEventListener('change', function() {
-            if (this.value === 'Autre') {
-                secteurAutreGroup.style.display = 'block';
-                secteurAutreInput.required = true;
-            } else {
-                secteurAutreGroup.style.display = 'none';
-                secteurAutreInput.required = false;
-                secteurAutreInput.value = '';
-            }
-        });
+                <div class="benefit-row">
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="benefit-number">02</div>
+                            <div class="benefit-title" style="margin-bottom: 0;">Opérations fluides</div>
+                        </div>
+                        <div class="benefit-desc">
+                            <ul>
+                                <li><strong>Un support client qui répond même quand vous êtes hors ligne :</strong> réponses automatiques, tickets, FAQ intelligentes.</li>
+                                <li><strong>Une gestion financière claire et sans prise de tête :</strong> synchronisation des ventes, suivi des dépenses, reporting automatisé.</li>
+                                <li><strong>Une organisation simple, même en solo ou en petite équipe :</strong> planning, paie, congés, tout au même endroit.</li>
+                            </ul>
+                            <div class="benefit-result">→ Résultat : votre business tourne tout seul, comme une horloge, sans stress ni oubli.</div>
+                        </div>
+                    </div>
+                </div>
 
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+                <div class="benefit-row">
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="benefit-number">03</div>
+                            <div class="benefit-title" style="margin-bottom: 0;">Intégration complète</div>
+                        </div>
+                        <div class="benefit-desc">
+                            <ul>
+                                <li><strong>Tous vos outils connectés :</strong> Shopify, WordPress, Microsoft Excel (avec OneDrive/SharePoint), et bien plus — une seule plateforme, une seule source de vérité.</li>
+                                <li><strong>Synchronisation en temps réel :</strong> Fini les copier-coller et les erreurs de saisie. Vos données circulent automatiquement et sans rupture entre vos logiciels.</li>
+                                <li><strong>Workflow fluide de bout en bout :</strong> De la commande client au suivi financier, en passant par le marketing — tout est lié, tout est simple.</li>
+                            </ul>
+                            <div class="benefit-result">→ Résultat : Vos outils communiquent enfin entre eux, comme s'ils parlaient le même langage. Vous gagnez en efficacité, supprimez les frictions techniques, et construisez un business agile et prêt à se développer sans limite.</div>
+                        </div>
+                    </div>
+                </div>
 
-            // Validation de l'URL du script
-            if (GOOGLE_SCRIPT_URL === "VOTRE_URL_GOOGLE_APPS_SCRIPT_ICI") {
-                showError("Configuration manquante : URL Google Apps Script non configurée.");
-                return;
-            }
+                <div class="benefit-row">
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="benefit-number">04</div>
+                            <div class="benefit-title" style="margin-bottom: 0;">Plus de temps pour l'essentiel</div>
+                        </div>
+                        <div class="benefit-desc">
+                            <ul>
+                                <li><strong>La liberté d'innover :</strong> Développez de nouvelles idées et lancez des projets ambitieux, sans être freiné par les détails opérationnels.</li>
+                                <li><strong>Un temps précieux pour votre stratégie :</strong> Réduisez le temps consacré aux tâches chronophages et consacrez-vous davantage à la construction de l'avenir de votre activité, ainsi qu'à la prise de décisions éclairées.</li>
+                                <li><strong>Une sérénité retrouvée :</strong> Confiez les tâches répétitives à la technologie et concentrez-vous sur ce qui crée réellement de la valeur pour vos clients et votre entreprise.</li>
+                            </ul>
+                            <div class="benefit-result">→ Saisissez cette opportunité pour reprendre pleinement le contrôle de votre temps et donner un nouvel élan à votre activité, en éliminant les frictions inutiles du quotidien.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            // Collecter les données
-            const secteurValue = secteurSelect.value === 'Autre'
-                ? secteurAutreInput.value.trim()
-                : secteurSelect.value;
+            <div class="trust-section">
+                <p class="trust-label">Outils que nous connectons</p>
+                <div class="tools-row">
+                    <span class="tool-badge"><span class="tool-dot" style="background: #34a853;"></span>Google Sheets</span>
+                    <span class="tool-badge"><span class="tool-dot" style="background: #21759b;"></span>WordPress</span>
+                    <span class="tool-badge"><span class="tool-dot" style="background: #96bf48;"></span>Shopify</span>
+                    <span class="tool-badge"><span class="tool-dot" style="background: #ff6a00;"></span>HubSpot</span>
+                    <span class="tool-badge"><span class="tool-dot" style="background: #0078d4;"></span>Excel / OneDrive</span>
+                    <span class="tool-badge"><span class="tool-dot" style="background: #4a154b;"></span>Slack</span>
+                    <span class="tool-badge"><span class="tool-dot" style="background: #ea4335;"></span>Gmail</span>
+                    <span class="tool-badge"><span class="tool-dot" style="background: #000000;"></span>Notion</span>
+                    <span class="tool-badge"><span class="tool-dot" style="background: #0079bf;"></span>Trello</span>
+                    <span class="tool-badge"><span class="tool-dot" style="background: #d4451a;"></span>n8n</span>
+                </div>
+            </div>
+        </div>
+        <div class="gradient-bar" role="presentation" aria-hidden="true"></div>
+    </section>
 
-            const formData = {
-                nom: document.getElementById('nom').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                telephone: document.getElementById('telephone').value.trim(),
-                entreprise: document.getElementById('entreprise').value.trim(),
-                secteur: secteurValue,
-                tache: document.getElementById('tache').value.trim(),
-                temps: document.getElementById('temps').value,
-                outils: document.getElementById('outils').value,
-                budget: document.getElementById('budget').value || '',
-                gdpr: document.getElementById('gdpr').checked
-            };
+    <!-- SLIDE 4: PRÊT À AUTOMATISER -->
+    <section class="slide" aria-labelledby="slide4-heading" role="region">
+        <div class="slide-content">
+            <div class="center-content">
+                <h1 id="slide4-heading">
+                    Prêt à<br>
+                    <span class="gradient-text">automatiser ?</span>
+                </h1>
 
-            // Désactiver le formulaire pendant l'envoi
-            setFormLoading(true);
+                <p class="subtitle">
+                    Prêt à automatiser et gagner du temps ?<br>
+                    Découvrez en 2 minutes quelles tâches automatiser en priorité pour booster votre productivité.<br>
+                    👉 Remplissez le formulaire et recevez une analyse personnalisée !
+                </p>
 
-            try {
-                // Envoyer les données à Google Apps Script
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Important pour Google Apps Script
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
+                <div class="cta-container">
+                    <a
+                        href="form/"
+                        class="form-button"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Remplir le formulaire d'automatisation (s'ouvre dans un nouvel onglet)">
+                        <span class="cta-icon" role="img" aria-label="Rocket">🚀</span>
+                        <span>Remplir le formulaire</span>
+                    </a>
+                    <div class="gratuit-badge">
+                        <span>✓</span> 100% Gratuit &amp; Sans engagement<span class="gratuit-dash"> — Analyse personnalisée en 24-48h</span>
+                    </div>
+                    <p class="gratuit-detail">Analyse personnalisée en 24-48h</p>
+                </div>
+            </div>
+        </div>
+        <div class="gradient-bar" role="presentation" aria-hidden="true"></div>
+    </section>
+    </main>
 
-                // Avec mode 'no-cors', on ne peut pas lire la réponse
-                // On suppose que ça a fonctionné si pas d'erreur réseau
-                setTimeout(showSuccess, 1000); // Petit délai pour l'UX
-
-            } catch (error) {
-                console.error('Erreur:', error);
-                showError("Problème de connexion. Vérifiez votre internet.");
-            } finally {
-                // setFormLoading(false) est appelé par showSuccess ou showError si besoin
-                if (!successMessage.classList.contains('show')) {
-                    setFormLoading(false);
-                }
-            }
-        });
-
-        function setFormLoading(loading) {
-            const inputs = form.querySelectorAll('input, textarea, select, button');
-            inputs.forEach(input => input.disabled = loading);
-
-            if (loading) {
-                submitBtn.classList.add('loading');
-                submitBtn.innerHTML = '';
-            } else {
-                submitBtn.classList.remove('loading');
-                submitBtn.innerHTML = "Lancer l'automatisation 🚀";
-            }
-        }
-
-        function showSuccess() {
-            form.style.display = 'none';
-            errorMessage.classList.remove('show');
-            successMessage.classList.add('show');
-            // Animation reset
-            document.querySelector('.header').style.display = 'none';
-        }
-
-        function showError(message) {
-            errorText.textContent = message;
-            form.style.display = 'none';
-            successMessage.classList.remove('show');
-            errorMessage.classList.add('show');
-        }
-
-        function resetForm() {
-            errorMessage.classList.remove('show');
-            form.style.display = 'block';
-            setFormLoading(false);
-        }
-    </script>
 </body>
 </html>
